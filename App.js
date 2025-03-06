@@ -1,20 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './screens/HomeScreen';
+import DetailScreen from './screens/DetailScreen';
+import OffScreenPreRender from './screens/OffScreenPreRender';
+import InteractionManagerPreRender from './screens/InteractionManagerPreRender';
+import HiddenStackPreRender from './screens/HiddenStackPreRender';
+import UseEffectPreRender from './screens/UseEffectPreRender';
+import BackgroundNavigation from './screens/BackgroundNavigation';
 
-export default function App() {
+const MainStack = createStackNavigator();
+const HiddenStack = createStackNavigator();
+
+
+const HiddenStackNavigator = () => (
+  <HiddenStack.Navigator screenOptions={{ headerShown: false }}>
+    <HiddenStack.Screen name="HiddenDetail" component={DetailScreen} />
+  </HiddenStack.Navigator>
+);
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <MainStack.Navigator>
+        <MainStack.Screen name="Home" component={HomeScreen} />
+        <MainStack.Screen name="Detail" component={DetailScreen} />
+        <MainStack.Screen name="OffScreenPreRender" component={OffScreenPreRender} />
+        <MainStack.Screen name="InteractionManagerPreRender" component={InteractionManagerPreRender} />
+        <MainStack.Screen name="HiddenStackPreRender" component={HiddenStackNavigator} />
+        <MainStack.Screen name="UseEffectPreRender" component={UseEffectPreRender} />
+        <MainStack.Screen name="BackgroundNavigation" component={BackgroundNavigation} />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
