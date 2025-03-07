@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import DetailScreen from './screens/DetailScreen';
 import OffScreenPreRender from './screens/OffScreenPreRender';
@@ -9,9 +10,9 @@ import HiddenStackPreRender from './screens/HiddenStackPreRender';
 import UseEffectPreRender from './screens/UseEffectPreRender';
 import BackgroundNavigation from './screens/BackgroundNavigation';
 
-const MainStack = createStackNavigator();
+const Stack = createStackNavigator();
 const HiddenStack = createStackNavigator();
-
+const Tab = createBottomTabNavigator();
 
 const HiddenStackNavigator = () => (
   <HiddenStack.Navigator screenOptions={{ headerShown: false }}>
@@ -19,18 +20,32 @@ const HiddenStackNavigator = () => (
   </HiddenStack.Navigator>
 );
 
+
+const MainStackNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Screen name="Detail" component={DetailScreen} />
+    <Stack.Screen name="OffScreenPreRender" component={OffScreenPreRender} />
+    <Stack.Screen name="InteractionManagerPreRender" component={InteractionManagerPreRender} />
+    <Stack.Screen name="HiddenStackPreRender" component={HiddenStackNavigator} />
+    <Stack.Screen name="UseEffectPreRender" component={UseEffectPreRender} />
+    <Stack.Screen name="BackgroundNavigation" component={BackgroundNavigation} />
+  </Stack.Navigator>
+);
+
+
+const TabNavigator = () => (
+  <Tab.Navigator screenOptions={{ headerShown: false, lazy: false }}>
+    <Tab.Screen name="MainStack" component={MainStackNavigator} />
+    <Tab.Screen name="HiddenStack" component={HiddenStackNavigator} />
+  </Tab.Navigator>
+);
+
+
 const App = () => {
   return (
     <NavigationContainer>
-      <MainStack.Navigator>
-        <MainStack.Screen name="Home" component={HomeScreen} />
-        <MainStack.Screen name="Detail" component={DetailScreen} />
-        <MainStack.Screen name="OffScreenPreRender" component={OffScreenPreRender} />
-        <MainStack.Screen name="InteractionManagerPreRender" component={InteractionManagerPreRender} />
-        <MainStack.Screen name="HiddenStackPreRender" component={HiddenStackNavigator} />
-        <MainStack.Screen name="UseEffectPreRender" component={UseEffectPreRender} />
-        <MainStack.Screen name="BackgroundNavigation" component={BackgroundNavigation} />
-      </MainStack.Navigator>
+      <TabNavigator />
     </NavigationContainer>
   );
 };
